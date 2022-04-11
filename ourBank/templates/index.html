@@ -1,0 +1,62 @@
+ 
+    {% extends "layout.html"%}
+    {% block body %}
+ 
+    <main class="w-full md:w-3/4 lg:w-2/4 mx-auto">
+        <h1 class="text-4xl w-3/4 mx-auto md:w-full md:text-5xl font-semibold text-center mt-8 md:mt-16">
+            Welcome to <span class="text-orange-300"> our Bank  </span>
+        </h1>
+        <section id="user-login-section" class="drop-shadow mx-6 md:mx-0 mt-8 md:mt-16 py-8 md:p-16 rounded md:rounded-3xl bg-green-100">
+            <div class="user-login w-4/5 mx-auto">
+                <h3 class="text-2xl mb-4 font-semibold">User Login</h3>
+                <div class="">
+                    <p class="text-red-400" id="invalid-email-message"></p>
+                    <input id="input-email" class="drop-shadow block outline-none  px-2 py-2 mb-4 rounded w-full" placeholder="Email: 'info@bc.com'" type="email">
+                    <p class="text-red-400" id="invalid-password-message"></p>
+                    <input id="input-password" class="drop-shadow block outline-none px-2 py-2 mb-4 rounded w-full" placeholder="Password: 'infobc'" type="password">
+                    <button id="btn-login" class="drop-shadow text-white px-6 py-2 bg-yellow-400 rounded font-medium">Login</button> 
+                    <span id="login-message" class="text-red-400 font-medium pl-2"></span>
+                </div>
+            </div>
+        </section>
+    </main> 
+    <script>const inputEmailField = document.getElementById('input-email');
+        const inputPasswordField = document.getElementById('input-password');
+        const loginButton = document.getElementById('btn-login');
+        const emailStatus = document.getElementById('invalid-email-message');
+        const passwordStatus = document.getElementById('invalid-password-message');
+        const loginStatus = document.getElementById('login-message');
+        
+        //login button handler
+        loginButton.onclick = () => {
+            const userEmail = inputEmailField.value;
+            const userPassword = inputPasswordField.value;
+            if(userEmail.replace(/\s/g, "")  == "" || !userEmail.includes('@')){
+                emailStatus.innerText = "Please enter a valid email address !"
+                inputEmailField.style.border = '1px solid red';
+            }
+            else if(userPassword.replace(/\s/g, "")  == ""){
+                passwordStatus.innerText = 'Please enter a password first !';
+                inputPasswordField.style.border = '1px solid red';
+            }
+            else {
+                const defaultUser = 'info@bc.com';
+                const defaultPassword = "infobc";
+                if(userEmail == defaultUser && userPassword == defaultPassword){
+                    console.log('login successful');
+                    window.location.href = 'banking.html';
+                }
+                else {
+                    loginStatus.innerText = 'Incorect ! try again';
+                    inputEmailField.style.border = '1px solid red';
+                    inputPasswordField.style.border = '1px solid red';
+                }
+            }
+        }
+        
+        //updating styles of input box dynamically
+        inputEmailField.onkeyup = () => inputEmailField.style.border = 'none';
+        inputPasswordField.onkeyup = () => inputPasswordField.style.border = 'none';
+        </script>
+    {% endblock %}
+ 

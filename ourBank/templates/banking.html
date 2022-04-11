@@ -1,0 +1,92 @@
+{% extends "layout.html"%}
+{% block body%}
+    <main class="w-4/5 lg:w-3/4 mx-auto">
+        <h1 class="text-3xl lg:text-5xl mb-6 md:mb-16 w-3/4 mx-auto md:w-full font-semibold text-center mt-8 md:mt-16">
+            Let's get some <span class="text-orange-300">Mooooney !!!</span>
+        </h1> 
+        <section id="banking-section">
+            <div class="grid gap-4 grid-cols-1 md:grid-cols-3 text-white mb-8">
+                <div class="bg-green-400 p-8 rounded-lg">
+                    <h3 class="text-3xl mb-2">Balance</h3>
+                    <h1 class="text-5xl">$<span id="balance-field">1024</span></h1>
+                </div>
+                <div class="bg-violet-400 p-8 rounded-lg">
+                    <h3 class="text-3xl mb-2">Deposit</h3>
+                    <h1 class="text-5xl">$<span id="deposit-field">00</span></h1>
+                </div>
+                <div class="bg-orange-400 p-8 rounded-lg">
+                    <h3 class="text-3xl mb-2">Withdraw</h3>
+                    <h1 class="text-5xl">$<span id="withdraw-field">00</span></h1>
+                </div>
+            </div>
+            <div class="grid gap-8 grid-cols-1 md:grid-cols-2 mb-16">
+                <div class="bg-pink-300 p-8 rounded-lg">
+                    <h3 class="text-3xl mb-3 text-white">Please Deposit</h3>
+                    <input id="deposit-input" class="mb-3 drop-shadow w-full outline-none border-0 px-2 py-2 rounded" placeholder="Please enter your amount" type="text">
+                    <button id="deposit-btn" class="drop-shadow text-white px-6 py-2 bg-yellow-400 rounded font-medium">Deposit</button>
+                </div>
+                <div class="bg-pink-300 p-8 rounded-lg">
+                    <h3 class="text-3xl mb-3 text-white">Please Withdraw</h3>
+                    <input id="withdraw-input" class="mb-3 drop-shadow w-full outline-none border-0 px-2 py-2 rounded" placeholder="Please enter your amount" type="text">
+                    <button id="withdraw-btn" class="drop-shadow text-white px-6 py-2 bg-yellow-400 rounded font-medium">Withdraw</button>
+                </div>
+            </div>
+        </section>
+        <section>
+             
+            <form action="contact.html"class="drop-shadow text-white px-6 py-2 bg-yellow-400 rounded font-medium" style="font-size: larger;
+                                text-align: center; font-weight: bolder;">
+                <button type="submit">Complain Form</button>
+             </form>
+        </section>
+        
+    </main>
+    <script>
+        //for getting values
+const getValue = (inputId, isInput) => {
+    const inputField = document.getElementById(inputId);
+    if(isInput == true) {
+        let value = parseFloat(inputField.value);
+        inputField.value = '';
+        return value;
+    }
+    else return parseFloat(inputField.innerText);
+}
+
+const updateField = (fieldId, value) => document.getElementById(fieldId).innerText = value;
+
+//for updating Field value
+const calculateBankFinance = (inputAmount, isWithdraw) => {
+    const balance = getValue('balance-field', false);
+    if(isWithdraw == true){
+        if(inputAmount > 0 && inputAmount < balance ) {
+            const prevWdroAmount = getValue('withdraw-field', false);
+            updateField('balance-field', balance - inputAmount);
+            updateField('withdraw-field', prevWdroAmount + inputAmount);
+        } else alert('Withdraw Failed')
+    } 
+    else {
+        if(inputAmount > 0) {
+            const prevDepoAmount = getValue('deposit-field', false);
+            updateField('balance-field', balance + inputAmount);
+            updateField('deposit-field', prevDepoAmount + inputAmount);
+        } else alert('Deposit Failed')
+    }
+}
+
+//Deposit Handler
+const depositButton = document.getElementById('deposit-btn');
+depositButton.onclick = () => {
+    const depositAmount = getValue('deposit-input', true);
+    calculateBankFinance(depositAmount, false);
+}
+
+//Withdraw Handler
+const withdrawButton = document.getElementById('withdraw-btn');
+withdrawButton.onclick = () => {
+    const withdrawAmount = getValue('withdraw-input', true);
+    calculateBankFinance(withdrawAmount, true);
+}
+    </script>
+{% endblock%}
+ 
